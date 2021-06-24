@@ -3,3 +3,4 @@ db/data
 auth-db/data
 db-only.yml
 ui/node_modules
+ui/build
