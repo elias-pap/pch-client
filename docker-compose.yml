@@ -31,6 +31,18 @@ services:
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
     volumes:
       - ./hasura/migrations:/hasura-migrations
+
+  auth-db:
+    image: minio/minio:RELEASE.2021-06-09T18-51-39Z
+    volumes:
+      - ./auth-db/data:/data
+    environment:
+      - MINIO_ACCESS_KEY=6GeTuccakgxMRvkapyJaa5nfLfVRtBPXs6TGHQcqaYt
+      - MINIO_SECRET_KEY=ZtmLUfX7NsdzsGxLeTZUv4gZWjjiVaZcqn36y2ufJs
+    ports:
+      - "8002:9000"
+    container_name: minio
+    command: server /data
   
   ui:
     build:
@@ -40,6 +52,7 @@ services:
     - 8000:80
     depends_on:
     - graphql-engine
+    - auth-db
 
   parser:
     build:

@@ -1,35 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './globalStyles.css';
+import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloProvider, split, HttpLink, ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { WebSocketLink } from '@apollo/client/link/ws';
-
-const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:8001/v1/graphql',
-  options: {
-    reconnect: true
-  }
-});
-
-const httpLink = new HttpLink({
-  uri: 'http://localhost:8001/v1/graphql'
-});
-
-const client = new ApolloClient({
-  link: ApolloLink.from([
-    wsLink,
-    httpLink
-  ]),
-  cache: new InMemoryCache()
-});
-
+import { ApolloProvider } from '@apollo/client';
+import { graphQLClient } from './util/graphqlUtil';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}><App /></ApolloProvider>
+    <ApolloProvider client={graphQLClient}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
